@@ -9,6 +9,20 @@ import stat
 import re 
 import urllib.request
 
+# The highlight configurations for BrainFuck compiler
+
+files="highlight.json"
+
+def import_the_highlight_config():
+    """Import the highlight configuration for BrainFuck."""
+    try:
+        with open(files, 'r') as file:
+            highlight_config = file.read()
+        return highlight_config
+    except FileNotFoundError:
+        print(f"Highlight configuration file '{files}' not found.")
+        sys.exit(1)
+
 DEFAULT_LANGGUANGE_EXTENSION = ".bf"
 DEFAULT_OUTPUT_EXTENSION = ".out"
 DEFAULT_OPTIMIZATION_LEVEL = 2
@@ -65,83 +79,9 @@ def run_brainfuck_code(source_code, tape_size=DEFAULT_TAPE_SIZE):
         if os.path.exists(temp_output_file_path):
             os.remove(temp_output_file_path)
 
-def install_bf_compiler():
-    """Install the bf-compiler if not already installed."""
-    if shutil.which("bf") is not None:
-        print("bf-compiler is already installed.")
-        return
-    
-    system_platform = platform.system()
-    
-    if system_platform == "Windows":
-        download_and_install_bf_compiler_in_windows()
-    elif system_platform in ["Linux", "Darwin"]:  # Darwin is macOS
-        download_and_install_bf_compiler_in_unix()
-    else:
-        print(f"Unsupported platform: {system_platform}")
-        sys.exit(1)
-    if shutil.which("bf") is None:
-        print("Failed to install bf-compiler.")
-        sys.exit(1)
-    print("bf-compiler installed successfully.")
-def download_and_install_bf_compiler_in_windows():
-    """Download and install bf-compiler in Windows."""
-    try:
-        bf_url = "https://github.com/LinnerFeng/HesterIDE/release/download/v1.0.0/bf-windows.zip"
-        download_path = "bf-windows.zip"
-        urllib.request.urlretrieve(bf_url, download_path)
-        print("bf-compiler downloaded successfully. Installing...")
-        shutil.unpack_archive(download_path, "bf-compiler")
-        bf_executable_path = os.path.join("bf-compiler", "bf.exe")
-        target_path = os.path.join(os.getenv("ProgramFiles"), "bf")
-        os.makedirs(target_path, exist_ok=True)
-        shutil.move(bf_executable_path, os.path.join(target_path, "bf.exe"))
-        os.environ["PATH"] += os.pathsep + target_path
-        print("bf-compiler installed successfully.")
-    except Exception as e:
-        bf_url="https://sourceforge.net/projects/bf-compiler/files/latest/download"
-        download_path = "bf-windows-installer.exe"
-        try:
-            urllib.request.urlretrieve(bf_url, download_path)
-            print("bf-compiler downloaded successfully. Installing...")
-            subprocess.run([download_path, '/VERYSILENT', '/NORESTART'], check=True)
-            print("bf-compiler installed successfully.")
-        except Exception as e:
-            print(f"Failed to download or install bf-compiler: {e}")
-            sys.exit(1)
-    finally:
-        if os.path.exists(download_path):
-            os.remove(download_path)
-def download_and_install_bf_compiler_in_unix():
-    """Download and install bf-compiler in Linux or macOS."""
-    try:
-        bf_url = "https://github.com/LinnerFeng/HesterIDE/release/download/v1.0.0/bf-unix.tar.gz"
-        download_path = "bf-unix.tar.gz"
-        urllib.request.urlretrieve(bf_url, download_path)
-        print("bf-compiler downloaded successfully. Installing...")
-        shutil.unpack_archive(download_path, "bf-compiler")
-        bf_executable_path = os.path.join("bf-compiler", "bf")
-        target_path = "/usr/local/bin/bf"
-        shutil.move(bf_executable_path, target_path)
-        os.chmod(target_path, os.stat(target_path).st_mode | stat.S_IEXEC)
-        print("bf-compiler installed successfully.")
-    except Exception as e:
-        bf_url="https://sourceforge.net/projects/bf-compiler/files/latest/download"
-        download_path = "bf-windows-installer.exe"
-        try:
-            urllib.request.urlretrieve(bf_url, download_path)
-            print("bf-compiler downloaded successfully. Installing...")
-            subprocess.run([download_path, '/VERYSILENT', '/NORESTART'], check=True)
-            print("bf-compiler installed successfully.")
-        except Exception as e:
-            print(f"Failed to download or install bf-compiler: {e}")
-            sys.exit(1)
-    finally:
-        if os.path.exists(download_path):
-            os.remove(download_path)
+#The package is just already installed, so we just need to import it
 
 def main():
-    install_bf_compiler()
     # Example BrainFuck code to print "Hello World!"
     brainfuck_code = """
     ++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.

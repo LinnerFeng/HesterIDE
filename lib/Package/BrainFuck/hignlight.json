@@ -1,0 +1,29 @@
+{
+    "version": "0.1.0",
+    "name": "BrainFuck",
+    "description": "A simple BrainFuck syntax highlighter",
+    "author": "HeasterIDE",
+    "license": "GPL-v2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/LinnerFeng/HesterIDE/tree/main/lib/Package/BrainFuck"
+    },
+    "scopeName":"source.brainfuck",
+    "fileTypes":["bf"],
+    "packagetype":"syntax & highlighting",
+    "patterns":[
+        {
+            "name":"comment.line.brainfuck",
+            "match":"\\[.*?\\]"
+        },
+        {
+            "name":"constant.numeric.brainfuck",
+            "match":"[+-<>.,]"
+        },
+        {
+            "name":"keyword.control.brainfuck",
+            "match":"[\\[\\]]"
+        }
+    ],
+    "scope":"source.brainfuck"
+}
