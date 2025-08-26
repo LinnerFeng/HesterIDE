@@ -8,6 +8,7 @@
         "type": "git",
         "url": "https://github.com/LinnerFeng/HesterIDE/tree/main/lib/Package/BrainFuck"
     },
+    "require":null,
     "scopeName":"source.brainfuck",
     "fileTypes":["bf"],
     "packagetype":"syntax & highlighting",
@@ -25,5 +26,16 @@
             "match":"[\\[\\]]"
         }
     ],
-    "scope":"source.brainfuck"
+    "scope":"source.brainfuck",
+    "script":{
+
+        "status":true,
+        "type":{
+
+            "cli":"main.py"
+
+        }
+
+    }
+    
 }
