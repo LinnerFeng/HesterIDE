@@ -119,10 +119,12 @@ def download_git_and_install_git_int_mac():
 def git_commit_and_push(commit_message):
     """Commit and push changes using Git."""
     try:
+        init_the_repo()
         subprocess.run(["git", "add", "."], check=True)
-        subprocess.run(["git", "commit", "-m", commit_message], check=True)
+        subprocess.run(["git", "commit", "-am", commit_message], check=True)
         subprocess.run(["git", "push"], check=True)
         print("Changes committed and pushed successfully.")
+        handheld_errors()
     except subprocess.CalledProcessError as e:
         print(f"Git operation failed: {e}")
         sys.exit(1)
@@ -141,6 +143,35 @@ def git_check_system_info():
         return "MacOS"
     else:
         raise OSError("Unknow OS type try to install git manually")
+
+
+#But with some of the fatal problem such as
+#rejected to push or cannot find it
+#there is some function to handed it
+def init_the_repo():
+    try:
+        subprocess.run(["git","init"],check=True)
+    except subprocess.CalledProcessError:
+        print("failed to init the repo")
+
+def handheld_errors():
+    #if show that rejected to push
+    try:
+        subprocess.run(["git","pull","--rebase"],check=True)
+    except subprocess.CalledProcessError:
+        #them make a new branch and push it
+        branch_name = "auto-branch"
+        try:
+            subprocess.run(["git","checkout","-b",branch_name],check=True)
+            subprocess.run(["git","push","-u","origin",branch_name],check=True)
+        except subprocess.CalledProcessError:
+            print("failed to create a new branch and push it")
+    #But if show that cannot find the repo
+    try:
+        subprocess.run(["git","remote","add","origin","<your-repo-url>"],check=True)
+    except subprocess.CalledProcessError:
+        print("failed to add the remote repo")
+
 
 if __name__ == "__main__":
     if not is_git_installed() and git_check_system_info() == "Windows":

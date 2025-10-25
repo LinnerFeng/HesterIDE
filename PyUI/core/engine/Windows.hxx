@@ -10,6 +10,10 @@ struct WinMessageEvent{
     std::function<void(int,int,int,int)>onMouseButtonEvent;//x,y,button,action
     std::function<void(int,int)>onKey;//x,y
     std::function<void()>onColseEvent;
+    std::function<void(bool,int)>onMouseFlowEvent;//true,false,times
+    std::function<void(bool,int,int)>onMouseBindEvent;//true.false,x,y
+    std::function<void(int)>onMouseDirectChangeEvent;//type
+
 };
 
 class Window{

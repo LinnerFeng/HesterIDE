@@ -2,6 +2,8 @@
 import ctypes
 import platform
 import os
+import sys
+
 class BrainFuck:
     def __init__(self, lib_path=None):
         # 确定库文件路径
@@ -103,7 +105,7 @@ class BrainFuck:
         self._output_callback = output_func_type(output_wrapper)
         self.lib.set_output_callback(self._output_callback)
 
-def main(code):
+def main(code=sys.stdin.read):
     #using the script to run of it
     bf=BrainFuck()
     bf.init()
