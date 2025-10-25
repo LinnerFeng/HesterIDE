@@ -3,7 +3,7 @@ import base64
 import os
 from xml.etree import ElementTree as ET
 from typing import List, Dict, Optional, Callable
-from cloud_service import CloudService, CloudFile, SyncStatus
+from cloudstorage import CloudService, CloudFile, SyncStatus
 
 class WebDAVService(CloudService):
     """WebDAV 云服务实现"""
